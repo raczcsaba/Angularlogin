@@ -1,0 +1,22 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <div class="form-group" style="width: 18rem">
+    <div class="card">
+      <div class="card-header">
+        Belépés
+      </div>
+      <div class="card-body">
+        <h5>Felhasználónév: </h5>
+        <p class="card-text">
+          <input class="form-control" id="uname" type="text" formControlName="name">
+        </p>
+        <h5>Jelszó: </h5>
+        <p class="card-text">
+          <input class="form-control" id="upw" type="password" formControlName="pw">
+        </p>
+          <button class="btn btn-primary" type="submit" [disabled]="!profileForm.valid">Belépés</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+
