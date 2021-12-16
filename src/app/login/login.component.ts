@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.user.name = this.profileForm.value.name;
-    this.user.password = this.profileForm.value.pw;
+    this.user.password = btoa(this.profileForm.value.pw);
     this.authenticationService.login(this.user).subscribe(res => {
       console.log(res["data"]);
     })
