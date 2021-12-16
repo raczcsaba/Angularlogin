@@ -9,25 +9,19 @@ import { User } from '../user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  req: Request | undefined;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private httpClient: HttpClient) {
   }
 
   //public get currentUserValue(): User {
     //return this.currentUserSubject.value;
   //}
 
-  login(user:User) {
+  login(user?:User): Observable<any>{
+   return this.httpClient.post(`${environment.apiUrl}/api/login`,user, {
 
-    this.http.post<Request>(`${environment.apiUrl}/api/login`,user,{observe: 'body'})
-      .subscribe(data => this.req = {
-        'error': data.error,
-        'message': data.message,
-        'data': data.data,
-      });
-    return this.req;
+   });
   }
 
   logout() {

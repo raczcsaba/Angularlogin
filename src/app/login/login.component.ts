@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../user';
+import {Token} from "@angular/compiler";
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { User } from '../user';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  user: User | undefined;
+  user: User = new User();
   profileForm = new FormGroup({
     name: new FormControl(''),
     pw: new FormControl(''),
@@ -25,7 +26,6 @@ export class LoginComponent implements OnInit {
 
   ) { }
 
-
   ngOnInit(): void {
     this.profileForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -33,12 +33,11 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
   onSubmit() {
-//interface
-    this.user = {'name':this.profileForm.value.name,'password':this.profileForm.value.pw};
-
-    let token = this.authenticationService.login(this.user);
-    console.log(token?.error);
+    this.user.name = this.profileForm.value.name;
+    this.user.password = this.profileForm.value.pw;
+    this.authenticationService.login(this.user).subscribe(res => {
+      console.log(res["data"]);
+    })
   }
 }

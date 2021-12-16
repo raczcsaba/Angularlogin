@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ProductsComponent } from './products/products.component';
 import {AuthenticationService} from "./services/authentication.service";
 
@@ -20,6 +20,7 @@ import {AuthenticationService} from "./services/authentication.service";
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [
     AuthenticationService
