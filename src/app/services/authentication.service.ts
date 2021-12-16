@@ -21,8 +21,8 @@ export class AuthenticationService {
 
   login(user:User) {
 
-    this.http.post<Request>(`${environment.apiUrl}/api/login`,user)
-      .subscribe((data: Request) => this.req = {
+    this.http.post<Request>(`${environment.apiUrl}/api/login`,user,{observe: 'body'})
+      .subscribe(data => this.req = {
         'error': data.error,
         'message': data.message,
         'data': data.data,
