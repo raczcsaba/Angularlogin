@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { ProductsComponent } from './products/products.component';
-import {AuthenticationService} from "./authentication.service";
+import {AuthenticationService} from "./services/authentication.service";
 
 @NgModule({
   declarations: [

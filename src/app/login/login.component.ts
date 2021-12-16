@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-login',
@@ -9,11 +10,14 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  user: User | undefined;
   profileForm = new FormGroup({
     name: new FormControl(''),
     pw: new FormControl(''),
   });
+//remember me
+  //bas64 localcucc felh jelszo
+  //minimum hossz validator
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -31,7 +35,10 @@ export class LoginComponent implements OnInit {
 
 
   onSubmit() {
+//interface
+    this.user = {'name':this.profileForm.value.name,'password':this.profileForm.value.pw};
 
-    this.authenticationService.login(this.profileForm.value.name,this.profileForm.value.pw);
+    let token = this.authenticationService.login(this.user);
+    console.log(token?.error);
   }
 }
