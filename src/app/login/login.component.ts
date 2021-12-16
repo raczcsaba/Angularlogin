@@ -12,6 +12,7 @@ import {Token} from "@angular/compiler";
 })
 export class LoginComponent implements OnInit {
   user: User = new User();
+  hiba: string = "";
   profileForm = new FormGroup({
     name: new FormControl(''),
     pw: new FormControl(''),
@@ -33,11 +34,24 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  closeBtn(){
+      this.hiba="";
+  }
+
+  onClick() {
     this.user.name = this.profileForm.value.name;
     this.user.password = btoa(this.profileForm.value.pw);
     this.authenticationService.login(this.user).subscribe(res => {
       console.log(res["data"]);
-    })
+    },
+      error => {
+        console.log(JSON.stringify(error.error["error"]));
+        if (error.status === 0) {
+          // A client-side or network error occurred. Handle it accordingly.
+          this.hiba = 'Hálózati hiba történt' + JSON.stringify(error.error);
+        } else {
+          this.hiba = JSON.stringify(error.error["error"]);
+        }
+      })
   }
 }

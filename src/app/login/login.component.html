@@ -1,4 +1,4 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="profileForm" >
   <div class="form-group" style="width: 18rem">
     <div class="card">
       <div class="card-header">
@@ -13,7 +13,12 @@
         <p class="card-text">
           <input class="form-control" id="upw" type="password" formControlName="pw">
         </p>
-          <button class="btn btn-primary" type="submit">Belépés</button>
+
+        <div *ngIf="hiba"class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" (click)="closeBtn()" class="close"><span aria-hidden="true">&times;</span></button>
+            {{hiba}}
+        </div>
+          <button class="btn btn-primary" (click)="onClick()" [disabled]="!profileForm.valid" type="button">Belépés</button>
       </div>
     </div>
   </div>
