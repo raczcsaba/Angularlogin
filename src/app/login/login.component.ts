@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     //remember me
     if (this.profileForm.value.check){
       let mix = "";
-      for (var _i = 0; _i < this.user.name.length +  this.user.password.length; _i++){
+      for (let _i = 0; _i < this.user.name.length +  this.user.password.length; _i++){
         if (this.user.name[_i]!=undefined)
           mix += this.user.name[_i];
         if (this.user.password[_i]!=undefined)
