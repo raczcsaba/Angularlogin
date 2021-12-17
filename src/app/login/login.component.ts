@@ -44,26 +44,23 @@ export class LoginComponent implements OnInit {
       mix = mix.split("").reverse().join("");
       this.user = new User();
       let _i = 0;
+      let sep = true
       while (mix[_i] != "|"){
-        if (_i%2==0){
-          this.user.name+=mix[_i];
+        this.user.name+=mix[_i];
+        if(mix[_i+1]!="|"){
+          this.user.password+=mix[_i+1];
+        }else {
+          sep = false;
+          _i--;
         }
-        else {
-          this.user.password+=mix[_i];
-        }
-        _i++;
+        _i+=2;
       }
       _i++;
-      let sep = _i%2;
-      let end = "";
-      for (_i; _i < mix.length; _i++){
-        end+=mix[_i];
-      }
       if(!sep){
-        this.user.name+=end;
+        this.user.name+=mix.slice(_i,mix.length);
       }
       else {
-        this.user.password+=end;
+        this.user.password+=mix.slice(_i,mix.length);
       }
       this.profileForm.setValue({'name':this.user.name,'pw':this.user.password,'check':true});
       console.log(mix  + " " + this.user.name + " " + this.user.password);
@@ -89,11 +86,12 @@ export class LoginComponent implements OnInit {
           mix+="|";
           sep=true;
         }
+        mix += (this.user.name[i] ?? "");
         if(!(this.user.password[i] ?? "")&&!sep){
           mix+="|";
           sep=true;
         }
-        mix += (this.user.name[i] ?? "") + (this.user.password[i] ?? "");
+        mix += (this.user.password[i] ?? "");
 
       }
       console.log(mix);
