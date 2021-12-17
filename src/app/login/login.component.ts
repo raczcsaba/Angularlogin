@@ -49,12 +49,17 @@ export class LoginComponent implements OnInit {
     //remember me
     if (this.profileForm.value.check){
       let mix = "";
+      console.log("name + pw hossza:"+(this.user.name.length +  this.user.password.length));
       for (let _i = 0; _i < this.user.name.length +  this.user.password.length; _i++){
+        console.log("ciklus alkalom:" + _i);
         if (this.user.name[_i]!=undefined)
           mix += this.user.name[_i];
         if (this.user.password[_i]!=undefined)
           mix += this.user.password[_i];
       }
+      console.log("mix hossza: "+mix.length);
+      console.log("mix: "+mix);
+
       mix = mix.split("").reverse().join("");
       mix = btoa(unescape(encodeURIComponent( mix )));
       localStorage.setItem('rememberme',mix);
