@@ -41,13 +41,32 @@ export class LoginComponent implements OnInit {
     let mix = localStorage.getItem('rememberme');
     if(mix) {
       mix = decodeURIComponent(escape(atob(mix)));
-      let uslenght = +mix.slice(mix.length - 2, mix.length);
-      mix = mix.substring(0,mix.length-2);
       mix = mix.split("").reverse().join("");
-      for (let i = 0; i < mix.length; i++){
-
+      this.user = new User();
+      let _i = 0;
+      while (mix[_i] != "|"){
+        if (_i%2==0){
+          this.user.name+=mix[_i];
+        }
+        else {
+          this.user.password+=mix[_i];
+        }
+        _i++;
       }
-      console.log(mix + " és " + uslenght);
+      _i++;
+      let sep = _i%2;
+      let end = "";
+      for (_i; _i < mix.length; _i++){
+        end+=mix[_i];
+      }
+      if(!sep){
+        this.user.name+=end;
+      }
+      else {
+        this.user.password+=end;
+      }
+      this.profileForm.setValue({'name':this.user.name,'pw':this.user.password,'check':true});
+      console.log(mix  + " " + this.user.name + " " + this.user.password);
     }
   }
 
@@ -64,16 +83,21 @@ export class LoginComponent implements OnInit {
     if (this.profileForm.value.check){
       let mix = "";
       let flenght = this.user.password.length > this.user.name.length ? this.user.password.length : this.user.name.length;
-
+      let sep = false;
       for (let i = 0; i < flenght; i++){
+        if(!(this.user.name[i] ?? "")&&!sep){
+          mix+="|";
+          sep=true;
+        }
+        if(!(this.user.password[i] ?? "")&&!sep){
+          mix+="|";
+          sep=true;
+        }
+        mix += (this.user.name[i] ?? "") + (this.user.password[i] ?? "");
 
-          mix += (this.user.name[i] ?? "") + (this.user.password[i] ?? "");
       }
       console.log(mix);
       mix = mix.split("").reverse().join("");
-      if (this.user.name.length<10)
-        mix+="0";
-      mix+=this.user.name.length;
       mix = btoa(unescape(encodeURIComponent( mix )));
       localStorage.setItem('rememberme',mix);
     }
