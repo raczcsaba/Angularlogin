@@ -50,12 +50,23 @@ export class LoginComponent implements OnInit {
     if (this.profileForm.value.check){
       let mix = "";
       console.log("name + pw hossza:"+(this.user.name.length +  this.user.password.length));
-      for (let _i = 0; _i < this.user.name.length +  this.user.password.length; _i++){
-        console.log("ciklus alkalom:" + _i);
-        if (this.user.name[_i]!=undefined)
-          mix += this.user.name[_i];
-        if (this.user.password[_i]!=undefined)
-          mix += this.user.password[_i];
+      let flenght;
+      if(this.user.name>=this.user.password)
+        flenght=this.user.name.length;
+      else
+        flenght=this.user.password.length;
+      let userlenght = 0;
+      let pwlenght = 0;
+      for (let i = 0; i < flenght; i++){
+        console.log("ciklus alkalom:" + i);
+        if (this.user.name[userlenght]!=undefined) {
+          mix += this.user.name[userlenght];
+          userlenght++;
+        }
+        if (this.user.password[pwlenght]!=undefined) {
+          mix += this.user.password[pwlenght];
+          pwlenght++;
+        }
       }
       console.log("mix hossza: "+mix.length);
       console.log("mix: "+mix);
