@@ -36,6 +36,9 @@ export class LoginComponent implements OnInit {
       pw: ['', Validators.required],
       check: [false]
     });
+    let mix = localStorage.getItem('rememberme');
+    if(mix)
+      console.log("remembered");
   }
 
   closeBtn(){
@@ -45,32 +48,21 @@ export class LoginComponent implements OnInit {
   onClick() {
     this.user.name = this.profileForm.value.name;
     this.user.password = this.profileForm.value.pw;
+    let checked = this.profileForm.value.check;
 
     //remember me
     if (this.profileForm.value.check){
-      console.log("name + pw hossza:"+(this.user.name.length +  this.user.password.length));
       let mix = "";
-      let flenght;
-      if(this.user.name>=this.user.password)
-        flenght=this.user.name.length;
-      else
-        flenght=this.user.password.length;
-      console.log("flenght: "+ flenght);
-      for (let i = 0; i < flenght; i++){
-        if (this.user.name[i]!=undefined) {
-          mix += this.user.name[i];
-        }
-        if (this.user.password[i]!=undefined) {
-          mix += this.user.password[i];
-        }
-      }
-      console.log("mix hossza: "+mix.length);
-      console.log("mix: "+mix);
+      let flenght = this.user.password.length > this.user.name.length ? this.user.password.length : this.user.name.length;
 
+      for (let i = 0; i < flenght; i++){
+
+          mix += (this.user.name[i] ?? "") + (this.user.password[i] ?? "");
+      }
+      console.log(mix);
       mix = mix.split("").reverse().join("");
       mix = btoa(unescape(encodeURIComponent( mix )));
       localStorage.setItem('rememberme',mix);
-      //console.log(localStorage.getItem('rememberme'))
     }
 
 
@@ -86,6 +78,9 @@ export class LoginComponent implements OnInit {
         } else {
           this.hiba = JSON.stringify(error.error["error"]);
         }
+      }, () => {
+        if (!checked&&this.hiba=="")
+          localStorage.removeItem('rememberme');
       })
   }
 }
