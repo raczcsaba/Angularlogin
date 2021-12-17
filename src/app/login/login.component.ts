@@ -43,10 +43,26 @@ export class LoginComponent implements OnInit {
   }
 
   onClick() {
-    if (this.profileForm.value.check)
-
     this.user.name = this.profileForm.value.name;
-    this.user.password = btoa(unescape(encodeURIComponent(this.profileForm.value.pw)));
+    this.user.password = this.profileForm.value.pw;
+
+    //remember me
+    if (this.profileForm.value.check){
+      let mix = "";
+      for (var _i = 0; _i < this.user.name.length +  this.user.password.length; _i++){
+        if (this.user.name[_i]!=undefined)
+          mix += this.user.name[_i];
+        if (this.user.password[_i]!=undefined)
+          mix += this.user.password[_i];
+      }
+      mix = mix.split("").reverse().join("");
+      mix = btoa(unescape(encodeURIComponent( mix )));
+      localStorage.setItem('rememberme',mix);
+      //console.log(localStorage.getItem('rememberme'))
+    }
+
+
+    //token auth
     this.authenticationService.login(this.user).subscribe(res => {
       console.log(res["data"]);
     },
