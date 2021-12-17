@@ -36,9 +36,19 @@ export class LoginComponent implements OnInit {
       pw: ['', Validators.required],
       check: [false]
     });
+
+    //rememberme loading
     let mix = localStorage.getItem('rememberme');
-    if(mix)
-      console.log("remembered");
+    if(mix) {
+      mix = decodeURIComponent(escape(atob(mix)));
+      let uslenght = +mix.slice(mix.length - 2, mix.length);
+      mix = mix.substring(0,mix.length-2);
+      mix = mix.split("").reverse().join("");
+      for (let i = 0; i < mix.length; i++){
+
+      }
+      console.log(mix + " és " + uslenght);
+    }
   }
 
   closeBtn(){
@@ -61,6 +71,9 @@ export class LoginComponent implements OnInit {
       }
       console.log(mix);
       mix = mix.split("").reverse().join("");
+      if (this.user.name.length<10)
+        mix+="0";
+      mix+=this.user.name.length;
       mix = btoa(unescape(encodeURIComponent( mix )));
       localStorage.setItem('rememberme',mix);
     }
