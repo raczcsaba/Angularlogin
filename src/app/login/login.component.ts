@@ -4,6 +4,8 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../user';
 import {Token} from "@angular/compiler";
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 @Component({
   selector: 'app-login',
@@ -16,6 +18,7 @@ export class LoginComponent implements OnInit {
   profileForm = new FormGroup({
     name: new FormControl(''),
     pw: new FormControl(''),
+    check: new FormControl(Boolean)
   });
 //remember me
   //bas64 localcucc felh jelszo
@@ -30,7 +33,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.profileForm = this.formBuilder.group({
       name: ['', Validators.required],
-      pw: ['', Validators.required]
+      pw: ['', Validators.required],
+      check: [false]
     });
   }
 
@@ -39,8 +43,10 @@ export class LoginComponent implements OnInit {
   }
 
   onClick() {
+    if (this.profileForm.value.check)
+
     this.user.name = this.profileForm.value.name;
-    this.user.password = btoa(this.profileForm.value.pw);
+    this.user.password = btoa(unescape(encodeURIComponent(this.profileForm.value.pw)));
     this.authenticationService.login(this.user).subscribe(res => {
       console.log(res["data"]);
     },
